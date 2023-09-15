@@ -6,6 +6,40 @@ function stopLoad() {
   console.log("done!");
 }
 
+let slideIndex = 0;
+
+function showSlides(index) {
+  const slides = [...document.querySelectorAll(".slide")];
+  slides.forEach((slide) => {
+    slide.style.setProperty("display", "none");
+  });
+  slides[index].style.setProperty("display", "block");
+}
+
+showSlides(0);
+
+function plusSlides() {
+  slideIndex += 1;
+  if (slideIndex >= [...document.querySelectorAll(".slide")].length) {
+    slideIndex = 0;
+  }
+  showSlides(slideIndex);
+}
+
+function minusSlides() {
+  slideIndex -= 1;
+  if (slideIndex < 0) {
+    slideIndex = [...document.querySelectorAll(".slide")].length - 1;
+  }
+  showSlides(slideIndex);
+}
+
+const prevBtn = document.querySelector("button.prev");
+const nextBtn = document.querySelector("button.next");
+
+prevBtn.addEventListener("click", minusSlides);
+nextBtn.addEventListener("click", plusSlides);
+
 function extractData(forecast) {
   return {
     location: `${forecast.location.name}, ${forecast.location.country}`,
@@ -18,6 +52,7 @@ function extractData(forecast) {
     uv_index: forecast.current.uv,
     wind_kph: forecast.current.wind_kph,
     wind_dir: forecast.current.wind_dir,
+    wind_deg: forecast.current.wind_degree,
     precip: forecast.current.precip_mm,
     cloud: forecast.current.cloud,
     forecastday: forecast.forecast.forecastday.map((item) => ({
@@ -73,7 +108,7 @@ function populatePage(promise) {
     const uvIndex = document.querySelector(".uv-index");
     uvIndex.textContent = data.uv_index;
     const wind = document.querySelector(".wind");
-    wind.textContent = data.wind;
+    wind.textContent = `${data.wind_kph} ${data.wind_dir}`;
     const precip = document.querySelector(".precip");
     precip.textContent = data.precip;
     const cloud = document.querySelector(".cloud");
@@ -100,6 +135,8 @@ function populatePage(promise) {
       });
       i += 1;
     });
+    slideIndex = 0;
+    showSlides(slideIndex);
   });
 }
 
@@ -119,23 +156,34 @@ async function getForecastData(location) {
 populatePage(getForecastData("Paris"));
 
 async function searchCities(str) {
-  const optionsRequest = await fetch(
-    `https://api.weatherapi.com/v1/search.json?key=ff4638f583ef4aa698c114919231109&q=${str}`,
-    { mode: "cors" },
-  );
-  const options = await optionsRequest.json();
-  return options;
+  if (str.trim().length > 0) {
+    const optionsRequest = await fetch(
+      `https://api.weatherapi.com/v1/search.json?key=ff4638f583ef4aa698c114919231109&q=${str}`,
+      { mode: "cors" },
+    );
+    if (optionsRequest.ok) {
+      const options = await optionsRequest.json();
+      return options;
+    }
+  }
+  return [];
 }
 
 const search = document.querySelector("input");
 const searchBtn = document.querySelector("button");
 
+const form = document.querySelector("form");
+
+form.addEventListener("submit", (ev) => {
+  ev.preventDefault();
+});
+
 search.addEventListener("search", (ev) => {
   ev.preventDefault();
 });
 
-function searchStr (e) {
-  const index = e.target.getAttribute('data-index');
+function searchStr(e) {
+  const index = e.target.getAttribute("data-index");
   searchCities(search.value).then((cities) => {
     populatePage(getForecastData(`${cities[index].lat},${cities[index].lon}`));
   });
@@ -149,6 +197,7 @@ searchBtn.addEventListener("click", () => {
       console.log(choice);
     }
   });
+  form.reset();
 });
 
 search.addEventListener("input", () => {
@@ -159,9 +208,9 @@ search.addEventListener("input", () => {
     cities.forEach((item) => {
       const city = document.createElement("div");
       city.classList.add("city-option");
-      city.setAttribute('data-index', index);
-      city.addEventListener('click', searchStr);
-      city.textContent = `${item.name}, ${item.region}, ${item.country}`;
+      city.setAttribute("data-index", index);
+      city.addEventListener("click", searchStr);
+      city.textContent = `${item.name}, ${item.country}`;
       searchBox.appendChild(city);
       index += 1;
     });
@@ -177,13 +226,6 @@ search.addEventListener("focus", () => {
 search.addEventListener("focusout", () => {
   const searchBox = document.querySelector("div.search-box");
   setTimeout(() => {
-    searchBox.remove()
+    searchBox.remove();
   }, 300);
-});
-
-
-
-const form = document.querySelector("form");
-form.addEventListener("submit", (ev) => {
-  ev.preventDefault();
 });

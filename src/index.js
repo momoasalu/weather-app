@@ -15,6 +15,18 @@ import Storm from "./icons/storm.png";
 import Blizzard from "./icons/blizzard.png";
 import Hailstone from "./icons/hailstone.png";
 
+import FirstQuarter from "./icons/moon phases /first-quarter.png";
+import FullMoon from "./icons/moon phases /full-moon.png";
+import LastQuarter from "./icons/moon phases /last-quarter.png";
+import NewMoon from "./icons/moon phases /new-moon.png";
+import WaningCrescent from "./icons/moon phases /waning-crescent.png";
+import WaningGibbous from "./icons/moon phases /waning-gibbous.png";
+import WaxingGibbous from "./icons/moon phases /waxing-gibbous.png";
+import WaxingCrescent from "./icons/moon phases /waxing-crescent.png";
+
+import Sunrise from './icons/sunrise.png';
+import Sunset from './icons/sunset.png';
+
 function getIcon(code, isDay) {
   let src;
   switch (code) {
@@ -92,6 +104,40 @@ function getIcon(code, isDay) {
       break;
     default:
       src = "weird! no option here?";
+      break;
+  }
+  return src;
+}
+
+function getMoonPhase (phase) {
+  let src;
+  switch (phase) {
+    case 'First Quarter':
+      src = FirstQuarter;
+      break;
+    case 'Full Moon':
+      src = FullMoon;
+      break;
+    case 'Last Quarter':
+      src = LastQuarter;
+      break;
+    case 'New Moon':
+      src = NewMoon;
+      break;
+    case 'Waning Crescent':
+      src = WaningCrescent;
+      break;
+    case 'Waxing Crescent':
+      src = WaxingCrescent;
+      break;
+    case 'Waning Gibbous':
+      src = WaningGibbous;
+      break;
+    case 'Waxing Gibbous':
+      src = WaxingGibbous;
+      break;
+    default:
+      src = 'nope! not here';
       break;
   }
   return src;
@@ -202,7 +248,6 @@ function populatePage(promise) {
     const time = current.querySelector(".current-time");
     time.textContent = data.time;
     const weatherIcon = current.querySelector(".current-weather > .icon");
-    console.log(data.condition_code);
     weatherIcon.src = getIcon(data.condition_code, data.isDay);
     const weatherCondition = current.querySelector(
       ".current-weather > .condition",
@@ -227,12 +272,18 @@ function populatePage(promise) {
     let i = 0;
     const slides = [...document.querySelectorAll(".slide")];
     slides.forEach((slide) => {
-      const sunrise = slide.querySelector(".sunrise");
-      sunrise.textContent = data.forecastday[i].sunrise;
-      const sunset = slide.querySelector(".sunset");
-      sunset.textContent = data.forecastday[i].sunset;
-      const moonPhase = slide.querySelector(".moon-phase");
-      moonPhase.textContent = data.forecastday[i].moon_phase;
+      const sunriseText = slide.querySelector(".sunrise > p");
+      sunriseText.textContent = data.forecastday[i].sunrise;
+      const sunriseIcon = slide.querySelector('.sunrise > img');
+      sunriseIcon.src = Sunrise;
+      const sunsetText = slide.querySelector(".sunset > p");
+      sunsetText.textContent = data.forecastday[i].sunset;
+      const sunsetIcon = slide.querySelector('.sunset > img');
+      sunsetIcon.src = Sunset;
+      const moonPhaseText = slide.querySelector(".moon-phase > p");
+      moonPhaseText.textContent = data.forecastday[i].moon_phase;
+      const moonPhaseIcon = slide.querySelector('.moon-phase > img');
+      moonPhaseIcon.src = getMoonPhase(data.forecastday[i].moon_phase);
 
       let j = 0;
       [...slide.querySelectorAll(".hour")].forEach((hour) => {

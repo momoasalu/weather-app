@@ -1,0 +1,230 @@
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+h5,
+p {
+  margin: 0;
+}
+
+main {
+  display: grid;
+  gap: 100px;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr 350px;
+  min-height: calc(100vh - 19px);
+}
+
+div.current-info {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 500px 1fr;
+}
+
+div.current {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 15px;
+  padding: 20px;
+}
+
+div.current .city {
+  text-align: center;
+  font-size: 4rem;
+}
+
+div.current .current-time {
+  font-size: 1.25rem;
+}
+
+div.current img {
+  width: 250px;
+}
+
+div.current .condition {
+  text-align: center;
+  font-size: 2rem;
+}
+
+div.current .temp {
+  font-size: 3rem;
+}
+
+div.current div.current-weather {
+  display: grid;
+  justify-items: center;
+}
+
+div.extra {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+  justify-content: space-evenly;
+  row-gap: 50px;
+  text-align: center;
+}
+
+div.extra > div > div {
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+  box-sizing: border-box;
+  border-radius: 50%;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+}
+
+div.extra h5 {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.arrow {
+  position: absolute;
+  left: calc(100% - 7.5px);
+  top: calc(50% - 9px);
+  transform-origin: -42.5px 9px;
+}
+
+div.extra #feels-like {
+  font-size: 1.75rem;
+}
+
+div.extra #humidity {
+  font-size: 2rem;
+}
+
+div.extra #uv-index {
+  font-size: 2.5rem;
+}
+
+div.extra #wind {
+  position: relative;
+}
+
+div.extra #wind p.wind {
+  font-size: 1.5rem;
+}
+
+div.extra #precip {
+  font-size: 1.25rem;
+}
+
+div.extra #cloud {
+  font-size: 2rem;
+}
+
+div.slideshow {
+  position: relative;
+  padding: 20px 0;
+}
+
+div.slide {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+div.slide div.date {
+  text-align: center;
+  padding: 5px 20px;
+  border: 1px solid black;
+}
+
+div.slide div.date .day {
+  font-size: 2rem;
+}
+
+div.slide div.date .month {
+  font-size: 1rem;
+}
+
+div.sun-moon-info {
+  display: grid;
+  gap: 5px;
+}
+
+div.moon-phase {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  font-size: 1rem;
+}
+
+div.moon-phase img {
+  height: 20px;
+}
+
+div.sunrise-sunset {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  text-align: center;
+}
+
+div.sunrise-sunset img {
+  width: 60px;
+}
+
+div.sunrise > p,
+div.sunset > p {
+  font-size: 15px;
+}
+
+div.hour {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  grid-template-rows: auto auto;
+  width: 300px;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  border: 1px solid black;
+}
+
+div.hour > .weather-condition {
+  grid-row: span 2;
+  text-align: center;
+  display: grid;
+  justify-items: center;
+}
+
+div.hour .icon {
+  width: 75px;
+}
+
+div.hour > .time {
+  align-self: start;
+  justify-self: end;
+  font-size: 50px;
+}
+
+div.hour > .temp {
+  align-self: center;
+  justify-self: end;
+  font-size: 30px;
+}
+
+button.prev,
+button.next {
+  position: absolute;
+  left: calc(50% - 20px);
+}
+
+button.prev {
+  top: 0;
+}
+
+button.next {
+  bottom: 0;
+}

@@ -11,155 +11,225 @@
             <button type="button" class="city-search">search</button>
         </div>
     </form>
-    <div>
-        <div class="current">
-            <div class="city"></div>
-            <div class="current-time"></div>
-            <div class="current-weather">
-                <img class="icon"/>
-                <div class="condition"></div>
-                <div class="temp"></div>
+    <main>
+        <div class="current-info">
+            <div class="current">
+                <div class="city"></div>
+                <div class="current-time"></div>
+                <div class="current-weather">
+                    <img class="icon"/>
+                    <div class="condition"></div>
+                    <div class="temp"></div>
+                </div>
+            </div>
+            <div class="extra">
+                <div>
+                    <h5>feels like</h5>
+                    <div id="feels-like">
+                        <p class="feels-like"></p>
+                    </div>
+                </div>
+                <div>
+                    <h5>humidity</h5>
+                    <div id="humidity">
+                        <p class="humidity"></p>
+                    </div>
+                </div>
+                <div>
+                    <h5>uv index</h5>
+                    <div id="uv-index">
+                        <p class="uv-index"></p>
+                    </div>
+                </div>
+                <div>
+                    <h5>wind</h5>
+                    <div id="wind">
+                        <p class="wind"></p>
+                        <p>km/h</p>
+                        <p class="arrow">➤</p>
+                    </div>
+                </div>
+                <div>
+                    <h5>precipitation</h5>
+                    <div id="precip">
+                        <p class="precip"></p>
+                    </div>
+                </div>
+                <div>
+                    <h5>cloud cover</h5>
+                    <div id="cloud">
+                        <p class="cloud"></p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div>
-            <div class="feels-like"></div>
-            <div class="humidity"></div>
-            <div class="uv-index"></div>
-            <div class="wind"></div>
-            <div class="precip"></div>
-            <div class="cloud"></div>
+        <div class="slideshow">
+            <div class="slide today">
+                <div class="date">
+                    <div class="day"></div>
+                    <div class="month"></div>
+                </div>
+                <div class="sun-moon-info">
+                    <div class="sunrise-sunset">
+                        <div class="sunrise">
+                            <img src="" alt="">
+                            <p></p>
+                        </div>
+                        <div class="sunset">
+                            <img src="" alt="">
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="moon-phase">
+                        <img class="moon-phase" />
+                        <p></p>
+                    </div>
+                </div>
+                <div class="hour">
+                    <div class="weather-condition">
+                        <img class="icon" />
+                        <div class="condition"></div>
+                    </div>
+                    <div class="time">00:00</div>
+                    <div class="temp"></div>
+                </div>
+                <div class="hour">
+                    <div class="weather-condition">
+                        <img class="icon" />
+                        <div class="condition"></div>
+                    </div>
+                    <div class="time">06:00</div>
+                    <div class="temp"></div>
+                </div>
+                <div class="hour">
+                    <div class="weather-condition">
+                        <img class="icon" />
+                        <div class="condition"></div>
+                    </div>
+                    <div class="time">12:00</div>
+                    <div class="temp"></div>
+                </div>
+                <div class="hour">
+                    <div class="weather-condition">
+                        <img class="icon" />
+                        <div class="condition"></div>
+                    </div>
+                    <div class="time">18:00</div>
+                    <div class="temp"></div>
+                </div>
+            </div>
+            <div class="slide tomorrow">
+                <div class="date">
+                    <div class="day"></div>
+                    <div class="month"></div>
+                </div>
+                <div class="sun-moon-info">
+                    <div class="sunrise-sunset">
+                        <div class="sunrise">
+                            <img src="" alt="">
+                            <p></p>
+                        </div>
+                        <div class="sunset">
+                            <img src="" alt="">
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="moon-phase">
+                        <img class="moon-phase" />
+                        <p></p>
+                    </div>
+                </div>
+                <div class="hour">
+                    <div class="weather-condition">
+                        <img class="icon" />
+                        <div class="condition"></div>
+                    </div>
+                    <div class="time">00:00</div>
+                    <div class="temp"></div>
+                </div>
+                <div class="hour">
+                    <div class="weather-condition">
+                        <img class="icon" />
+                        <div class="condition"></div>
+                    </div>
+                    <div class="time">06:00</div>
+                    <div class="temp"></div>
+                </div>
+                <div class="hour">
+                    <div class="weather-condition">
+                        <img class="icon" />
+                        <div class="condition"></div>
+                    </div>
+                    <div class="time">12:00</div>
+                    <div class="temp"></div>
+                </div>
+                <div class="hour">
+                    <div class="weather-condition">
+                        <img class="icon" />
+                        <div class="condition"></div>
+                    </div>
+                    <div class="time">18:00</div>
+                    <div class="temp"></div>
+                </div>
+            </div>
+            <div class="slide day-after">
+                <div class="date">
+                    <div class="day"></div>
+                    <div class="month"></div>
+                </div>
+                <div class="sun-moon-info">
+                    <div class="sunrise-sunset">
+                        <div class="sunrise">
+                            <img src="" alt="">
+                            <p></p>
+                        </div>
+                        <div class="sunset">
+                            <img src="" alt="">
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="moon-phase">
+                        <img class="moon-phase" />
+                        <p></p>
+                    </div>
+                </div>
+                <div class="hour">
+                    <div class="weather-condition">
+                        <img class="icon" />
+                        <div class="condition"></div>
+                    </div>
+                    <div class="time">00:00</div>
+                    <div class="temp"></div>
+                </div>
+                <div class="hour">
+                    <div class="weather-condition">
+                        <img class="icon" />
+                        <div class="condition"></div>
+                    </div>
+                    <div class="time">06:00</div>
+                    <div class="temp"></div>
+                </div>
+                <div class="hour">
+                    <div class="weather-condition">
+                        <img class="icon" />
+                        <div class="condition"></div>
+                    </div>
+                    <div class="time">12:00</div>
+                    <div class="temp"></div>
+                </div>
+                <div class="hour">
+                    <div class="weather-condition">
+                        <img class="icon" />
+                        <div class="condition"></div>
+                    </div>
+                    <div class="time">18:00</div>
+                    <div class="temp"></div>
+                </div>
+            </div>
+            <button class="prev">prev</button>
+            <button class="next">next</button>
         </div>
-    </div>
-    <div class="slideshow">
-        <div class="slide today">
-            <div class="sun-moon-info">
-                <div class="sunrise-sunset">
-                    <div class="sunrise">
-                        <img src="" alt="">
-                        <p></p>
-                    </div>
-                    <div class="sunset">
-                        <img src="" alt="">
-                        <p></p>
-                    </div>
-                </div>
-                <div class="moon-phase">
-                    <img class="moon-phase" />
-                    <p></p>
-                </div>
-            </div>
-            <div class="00:00 hour">
-                <img class="icon" />
-                <div class="time"></div>
-                <div class="condition"></div>
-                <div class="temp"></div>
-            </div>
-            <div class="06:00 hour">
-                <img class="icon" />
-                <div class="time"></div>
-                <div class="condition"></div>
-                <div class="temp"></div>
-            </div>
-            <div class="12:00 hour">
-                <img class="icon" />
-                <div class="time"></div>
-                <div class="condition"></div>
-                <div class="temp"></div>
-            </div>
-            <div class="18:00 hour">
-                <img class="icon" />
-                <div class="time"></div>
-                <div class="condition"></div>
-                <div class="temp"></div>
-            </div>
-        </div>
-        <div class="slide tomorrow">
-            <div class="sun-moon-info">
-                <div class="sunrise-sunset">
-                    <div class="sunrise">
-                        <img src="" alt="">
-                        <p></p>
-                    </div>
-                    <div class="sunset">
-                        <img src="" alt="">
-                        <p></p>
-                    </div>
-                </div>
-                <div class="moon-phase">
-                    <img class="moon-phase" />
-                    <p></p>
-                </div>
-            </div>
-            <div class="00:00 hour">
-                <img class="icon" />
-                <div class="time"></div>
-                <div class="condition"></div>
-                <div class="temp"></div>
-            </div>
-            <div class="06:00 hour">
-                <img class="icon" />
-                <div class="time"></div>
-                <div class="condition"></div>
-                <div class="temp"></div>
-            </div>
-            <div class="12:00 hour">
-                <img class="icon" />
-                <div class="time"></div>
-                <div class="condition"></div>
-                <div class="temp"></div>
-            </div>
-            <div class="18:00 hour">
-                <img class="icon" />
-                <div class="time"></div>
-                <div class="condition"></div>
-                <div class="temp"></div>
-            </div>
-        </div>
-        <div class="slide day-after">
-            <div class="sun-moon-info">
-                <div class="sunrise-sunset">
-                    <div class="sunrise">
-                        <img src="" alt="">
-                        <p></p>
-                    </div>
-                    <div class="sunset">
-                        <img src="" alt="">
-                        <p></p>
-                    </div>
-                </div>
-                <div class="moon-phase">
-                    <img class="moon-phase" />
-                    <p></p>
-                </div>
-            </div>
-            <div class="00:00 hour">
-                <img class="icon" />
-                <div class="time"></div>
-                <div class="condition"></div>
-                <div class="temp"></div>
-            </div>
-            <div class="06:00 hour">
-                <img class="icon" />
-                <div class="time"></div>
-                <div class="condition"></div>
-                <div class="temp"></div>
-            </div>
-            <div class="12:00 hour">
-                <img class="icon" />
-                <div class="time"></div>
-                <div class="condition"></div>
-                <div class="temp"></div>
-            </div>
-            <div class="18:00 hour">
-                <img class="icon" />
-                <div class="time"></div>
-                <div class="condition"></div>
-                <div class="temp"></div>
-            </div>
-        </div>
-        <button class="prev">prev</button>
-        <button class="next">next</button>
-    </div>
+    </main>
     <script src="main.js"></script>
 </body>
 </html>

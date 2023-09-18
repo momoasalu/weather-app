@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 import Sunny from "./icons/sun.png";
 import Clear from "./icons/full-moon.png";
 import CloudyDay from "./icons/cloudy-day.png";
@@ -24,8 +26,10 @@ import WaningGibbous from "./icons/moon phases /waning-gibbous.png";
 import WaxingGibbous from "./icons/moon phases /waxing-gibbous.png";
 import WaxingCrescent from "./icons/moon phases /waxing-crescent.png";
 
-import Sunrise from './icons/sunrise.png';
-import Sunset from './icons/sunset.png';
+import Sunrise from "./icons/sunrise.png";
+import Sunset from "./icons/sunset.png";
+
+import "./style.css";
 
 function getIcon(code, isDay) {
   let src;
@@ -109,35 +113,35 @@ function getIcon(code, isDay) {
   return src;
 }
 
-function getMoonPhase (phase) {
+function getMoonPhase(phase) {
   let src;
   switch (phase) {
-    case 'First Quarter':
+    case "First Quarter":
       src = FirstQuarter;
       break;
-    case 'Full Moon':
+    case "Full Moon":
       src = FullMoon;
       break;
-    case 'Last Quarter':
+    case "Last Quarter":
       src = LastQuarter;
       break;
-    case 'New Moon':
+    case "New Moon":
       src = NewMoon;
       break;
-    case 'Waning Crescent':
+    case "Waning Crescent":
       src = WaningCrescent;
       break;
-    case 'Waxing Crescent':
+    case "Waxing Crescent":
       src = WaxingCrescent;
       break;
-    case 'Waning Gibbous':
+    case "Waning Gibbous":
       src = WaningGibbous;
       break;
-    case 'Waxing Gibbous':
+    case "Waxing Gibbous":
       src = WaxingGibbous;
       break;
     default:
-      src = 'nope! not here';
+      src = "nope! not here";
       break;
   }
   return src;
@@ -151,6 +155,22 @@ function stopLoad() {
   console.log("done!");
 }
 
+function getUVDescriptor(uv) {
+  if (uv <= 2) {
+    return "green";
+  }
+  if (uv <= 5) {
+    return "yellow";
+  }
+  if (uv <= 7) {
+    return "orange";
+  }
+  if (uv <= 10) {
+    return "red";
+  }
+  return "violet";
+}
+
 let slideIndex = 0;
 
 function showSlides(index) {
@@ -158,7 +178,7 @@ function showSlides(index) {
   slides.forEach((slide) => {
     slide.style.setProperty("display", "none");
   });
-  slides[index].style.setProperty("display", "block");
+  slides[index].style.setProperty("display", "");
 }
 
 showSlides(0);
@@ -188,7 +208,13 @@ nextBtn.addEventListener("click", plusSlides);
 function extractData(forecast) {
   return {
     location: `${forecast.location.name}, ${forecast.location.country}`,
-    time: forecast.current.last_updated,
+    time: new Date(
+      Number(forecast.current.last_updated.slice(0, 4)),
+      Number(forecast.current.last_updated.slice(5, 7)) - 1,
+      Number(forecast.current.last_updated.slice(8, 10)),
+      Number(forecast.current.last_updated.slice(11, 13)),
+      Number(forecast.current.last_updated.slice(14)),
+    ),
     isDay: forecast.current.is_day,
     temp: forecast.current.temp_c,
     condition_code: forecast.current.condition.code,
@@ -205,7 +231,11 @@ function extractData(forecast) {
       sunrise: item.astro.sunrise,
       sunset: item.astro.sunset,
       moon_phase: item.astro.moon_phase,
-      date: item.date,
+      date: new Date(
+        Number(item.date.slice(0, 4)),
+        Number(item.date.slice(5, 7)) - 1,
+        Number(item.date.slice(8)),
+      ),
       hour: [
         {
           time: "00:00",
@@ -244,15 +274,15 @@ function populatePage(promise) {
   promise.then((data) => {
     const current = document.querySelector(".current");
     const city = current.querySelector(".city");
-    city.textContent = data.location;
+    city.textContent = data.location.toLowerCase();
     const time = current.querySelector(".current-time");
-    time.textContent = data.time;
+    time.textContent = format(data.time, "EEE dd MMM yyyy HH:mm");
     const weatherIcon = current.querySelector(".current-weather > .icon");
     weatherIcon.src = getIcon(data.condition_code, data.isDay);
     const weatherCondition = current.querySelector(
       ".current-weather > .condition",
     );
-    weatherCondition.textContent = data.condition_text;
+    weatherCondition.textContent = data.condition_text.toLowerCase();
     const temp = current.querySelector(".current-weather > .temp");
     temp.textContent = `${data.temp}ºC`;
 
@@ -262,8 +292,13 @@ function populatePage(promise) {
     humidity.textContent = `${data.humidity}%`;
     const uvIndex = document.querySelector(".uv-index");
     uvIndex.textContent = data.uv_index;
+    uvIndex.parentElement.style.outline = `${getUVDescriptor(
+      data.uv_index,
+    )} solid 1px`;
     const wind = document.querySelector(".wind");
-    wind.textContent = `${data.wind_kph} ${data.wind_dir}`;
+    const windDeg = document.querySelector("#wind > .arrow");
+    windDeg.style.transform = `rotate(${data.wind_deg - 90}deg)`;
+    wind.textContent = data.wind_kph;
     const precip = document.querySelector(".precip");
     precip.textContent = `${data.precip}mm`;
     const cloud = document.querySelector(".cloud");
@@ -272,17 +307,21 @@ function populatePage(promise) {
     let i = 0;
     const slides = [...document.querySelectorAll(".slide")];
     slides.forEach((slide) => {
+      const day = slide.querySelector(".day");
+      day.textContent = format(data.forecastday[i].date, "dd");
+      const month = slide.querySelector(".month");
+      month.textContent = format(data.forecastday[i].date, "MMM");
       const sunriseText = slide.querySelector(".sunrise > p");
       sunriseText.textContent = data.forecastday[i].sunrise;
-      const sunriseIcon = slide.querySelector('.sunrise > img');
+      const sunriseIcon = slide.querySelector(".sunrise > img");
       sunriseIcon.src = Sunrise;
       const sunsetText = slide.querySelector(".sunset > p");
       sunsetText.textContent = data.forecastday[i].sunset;
-      const sunsetIcon = slide.querySelector('.sunset > img');
+      const sunsetIcon = slide.querySelector(".sunset > img");
       sunsetIcon.src = Sunset;
       const moonPhaseText = slide.querySelector(".moon-phase > p");
-      moonPhaseText.textContent = data.forecastday[i].moon_phase;
-      const moonPhaseIcon = slide.querySelector('.moon-phase > img');
+      moonPhaseText.textContent = data.forecastday[i].moon_phase.toLowerCase();
+      const moonPhaseIcon = slide.querySelector(".moon-phase > img");
       moonPhaseIcon.src = getMoonPhase(data.forecastday[i].moon_phase);
 
       let j = 0;
@@ -293,7 +332,8 @@ function populatePage(promise) {
           data.forecastday[i].hour[j].isDay,
         );
         const condition = hour.querySelector(".condition");
-        condition.textContent = data.forecastday[i].hour[j].condition_text;
+        condition.textContent =
+          data.forecastday[i].hour[j].condition_text.toLowerCase();
         const temperature = hour.querySelector(".temp");
         temperature.textContent = `${data.forecastday[i].hour[j].temp}ºC`;
         j += 1;

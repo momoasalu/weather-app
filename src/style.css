@@ -8,12 +8,81 @@ p {
   margin: 0;
 }
 
+div.search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 20px;
+  position: relative;
+}
+
+div.search-bar {
+  display: flex;
+  justify-content: center;
+}
+
+div.search input {
+  border: 1px solid black;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  height: 30px;
+  width: 500px;
+  margin: 0;
+  box-sizing: border-box;
+  padding-left: 15px;
+}
+
+div.search button {
+  border: 1px solid black;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  height: 30px;
+  margin-left: -1px;
+}
+
+div.search-box {
+  width: 550px;
+  position: absolute;
+  top: 55px;
+  border: 1px solid black;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+div.search-box.empty {
+  border: none;
+}
+
+div.search-box > ul > li {
+  height: 30px;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  cursor: default;
+}
+
+div.search-box > ul > li:hover {
+  background-color: rgb(193, 193, 193);
+}
+
+div.search-box ul {
+  padding-left: 0;
+  margin: 0;
+  list-style-type: none;
+  display: grid;
+  grid-auto-flow: row;
+  align-items: center;
+  justify-content: stretch;
+  gap: 5px;
+}
+
 main {
   display: grid;
   gap: 100px;
   grid-auto-flow: column;
   grid-template-columns: 1fr 350px;
-  min-height: calc(100vh - 19px);
+  min-height: calc(100vh - 52px);
 }
 
 div.current-info {
@@ -27,12 +96,12 @@ div.current {
   justify-items: center;
   align-content: center;
   gap: 15px;
-  padding: 20px;
+  padding: 75px;
 }
 
 div.current .city {
   text-align: center;
-  font-size: 4rem;
+  font-size: 3rem;
 }
 
 div.current .current-time {
@@ -83,46 +152,274 @@ div.extra > div > div {
 div.extra h5 {
   margin-bottom: 10px;
   font-size: 1rem;
+  font-family: sans-serif;
+  font-weight: normal;
 }
 
 .arrow {
   position: absolute;
-  left: calc(100% - 7.5px);
-  top: calc(50% - 9px);
-  transform-origin: -42.5px 9px;
+  left: calc(100% - 11.5px);
+  top: calc(50% - 7.5px);
+  transform-origin: -37.5px 7.5px;
+  font-size: 12.5px;
+}
+
+.north {
+  position: absolute;
+  top: 7.5px;
+  left: calc(50% - 3.5px);
+  font-size: 10px;
+  font-family: sans-serif;
+}
+
+.marker {
+  position: absolute;
+  font-size: 10px;
+  top: 1px;
+  left: calc(50% - 3px);
 }
 
 div.extra #feels-like {
-  font-size: 1.75rem;
+  --width: 0%;
+  font-size: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#feels-like > .thermometer-container {
+  width: 55px;
+}
+
+.thermometer-container > .thermometer {
+  padding-left: 3px;
+  position: relative;
+  border: 0.5px solid black;
+  box-sizing: border-box;
+  height: 17.5px;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  border-radius: 5px;
+}
+
+.thermometer progress {
+  position: absolute;
+  width: 45px;
+  appearance: none;
+  border: none;
+  height: 1px;
+  right: 0;
+  opacity: 0;
+}
+
+.thermometer::before {
+  position: absolute;
+  left: 2px;
+  top: calc(50% - 3.5px);
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: red;
+  margin-right: -1px;
+  z-index: 5;
+  border: 0.5px solid black;
+  clip-path: inset(0 0.55px 0 0);
+}
+
+.thermometer > .progress {
+  position: relative;
+  height: 2px;
+  width: 45px;
+  background-color: white;
+  outline: 0.5px solid black;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.thermometer > .progress::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--width);
+  background-color: red;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.thermometer > .scale {
+  background: repeating-linear-gradient(to right, black, black 0.5px, white 0.5px, white 1.5px);
+  position: absolute;
+  top: 1px;
+  left: 9.5px;
+  width: 75%;
+  height: 3px;
 }
 
 div.extra #humidity {
-  font-size: 2rem;
+  font-size: 1.5rem;
+  position: relative;
+  background-color: rgba(64, 169, 255, 0.4)
+}
+
+.mask {
+  --mask:
+    radial-gradient(12.66px at 50% calc(100% + 6.00px),#0000 calc(99% - 2px),#000 calc(101% - 2px) 99%,#0000 101%) calc(50% - 20px) calc(50% - 6px + .5px)/40px 12px ,
+    radial-gradient(12.66px at 50% -6px,#0000 calc(99% - 2px),#000 calc(101% - 2px) 99%,#0000 101%) 50% calc(50% + 6px)/40px 12px ;
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
+  background-color: blue;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  clip-path: circle(50%);
+  z-index: -1;
+}
+
+#humidity p{
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
 }
 
 div.extra #uv-index {
   font-size: 2.5rem;
 }
 
+p.uv-index {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px black solid;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+}
+
 div.extra #wind {
   position: relative;
+  background-image: repeating-conic-gradient(from 0deg, white 0deg 1deg, rgb(183, 183, 183) 1deg 2deg);
+}
+
+div.extra #wind > div {
+  border: none;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+}
+
+div.extra #wind > div > div {
+  border: 0.5px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
 }
 
 div.extra #wind p.wind {
-  font-size: 1.5rem;
-}
-
-div.extra #precip {
   font-size: 1.25rem;
 }
 
+div.extra #precip {
+  position: relative;
+  font-size: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+div.extra .water {
+  mask: radial-gradient(6.56px at 50% 9.25px,#000 99%,#0000 101%) calc(50% - 10px) 0/20px 100%, radial-gradient(6.56px at 50% -4.25px,#0000 99%,#000 101%) 50% 5px/20px 100% repeat-x;
+  -webkit-mask: radial-gradient(6.56px at 50% 9.25px,#000 99%,#0000 101%) calc(50% - 10px) 0/20px 100%, radial-gradient(6.56px at 50% -4.25px,#0000 99%,#000 101%) 50% 5px/20px 100% repeat-x;
+  background-color: rgba(26, 152, 255, 0.617);
+  width: 100px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+}
+
+div.extra #precip p {
+  width: 75px;
+  height: 75px;
+  background-color: rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+#precip svg {
+  position: absolute;
+  width: 200px;
+}
+
 div.extra #cloud {
-  font-size: 2rem;
+  font-size: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  background-color: rgb(223, 247, 255);
+}
+
+#cloud svg {
+  position: absolute;
+}
+
+#cloud svg:nth-of-type(1) {
+  top: 50%;
+  left: 10px;
+  width: 45px;
+  height: 45px;
+}
+
+#cloud svg:nth-of-type(2) {
+  top: 25px;
+  right: -3px;
+  width: 50px;
+  height: 50px;
+}
+
+#cloud svg:nth-of-type(3) {
+  top: 1px;
+  left: -1px;
+  width: 50px;
+  height: 50px;
+}
+
+#cloud svg:nth-of-type(5) {
+  bottom: -10px;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+#cloud p {
+  z-index: 2;
 }
 
 div.slideshow {
   position: relative;
-  padding: 20px 0;
+  padding: 40px 0;
 }
 
 div.slide {
@@ -135,51 +432,26 @@ div.slide {
 }
 
 div.slide div.date {
-  text-align: center;
-  padding: 5px 20px;
+  width: 75px;
+  height: 100px;
+  box-sizing: border-box;
+  padding-top: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   border: 1px solid black;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
 }
 
 div.slide div.date .day {
-  font-size: 2rem;
+  font-size: 2.5rem;
 }
 
 div.slide div.date .month {
-  font-size: 1rem;
-}
-
-div.sun-moon-info {
-  display: grid;
-  gap: 5px;
-}
-
-div.moon-phase {
-  display: grid;
-  grid-auto-flow: column;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  font-size: 1rem;
-}
-
-div.moon-phase img {
-  height: 20px;
-}
-
-div.sunrise-sunset {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 30px;
-  text-align: center;
-}
-
-div.sunrise-sunset img {
-  width: 60px;
-}
-
-div.sunrise > p,
-div.sunset > p {
-  font-size: 15px;
+  font-size: 1.5rem;
+  margin-top: -7.5px;
 }
 
 div.hour {
@@ -187,7 +459,7 @@ div.hour {
   grid-template-columns: 150px 1fr;
   grid-template-rows: auto auto;
   width: 300px;
-  padding: 10px 20px;
+  padding: 15px 20px;
   box-sizing: border-box;
   border: 1px solid black;
 }

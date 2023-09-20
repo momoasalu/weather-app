@@ -6,16 +6,19 @@
 </head>
 <body>
     <form>
-        <div>
-            <input type="search" id="city">
-            <button type="button" class="city-search">search</button>
+        <div class="search">
+            <div class="search-bar">
+                <input type="text" id="city" spellcheck="false">
+                <button type="button" class="city-search">search</button>
+            </div>
+            <div class="search-box empty"></div>
         </div>
     </form>
     <main>
         <div class="current-info">
             <div class="current">
-                <div class="city"></div>
                 <div class="current-time"></div>
+                <div class="city"></div>
                 <div class="current-weather">
                     <img class="icon"/>
                     <div class="condition"></div>
@@ -27,12 +30,21 @@
                     <h5>feels like</h5>
                     <div id="feels-like">
                         <p class="feels-like"></p>
+                        <div class="thermometer-container">
+                            <div class="thermometer">
+                                <div class="progress">
+                                    <progress max="100" value="50"></progress>
+                                </div>
+                                <div class="scale"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div>
                     <h5>humidity</h5>
                     <div id="humidity">
                         <p class="humidity"></p>
+                        <div class="mask"></div>
                     </div>
                 </div>
                 <div>
@@ -44,21 +56,51 @@
                 <div>
                     <h5>wind</h5>
                     <div id="wind">
-                        <p class="wind"></p>
-                        <p>km/h</p>
-                        <p class="arrow">➤</p>
+                        <div>
+                            <div>
+                                <p class="wind"></p>
+                                <p>km/h</p>
+                            </div>
+                            <p class="arrow">➤</p>
+                            <p class="marker">▾</p>
+                            <p class="north">N</p>
+                        </div>
                     </div>
                 </div>
                 <div>
                     <h5>precipitation</h5>
                     <div id="precip">
                         <p class="precip"></p>
+                        <div class="water"></div>
                     </div>
                 </div>
                 <div>
                     <h5>cloud cover</h5>
                     <div id="cloud">
-                        <p class="cloud"></p>
+                        <p class="cloud"></p> 
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M896 455.111111c-17.066667 0-34.133333 2.844444-51.2 11.377778 5.688889-11.377778 8.533333-25.6 8.533333-39.822222 0-62.577778-51.2-113.777778-113.777777-113.777778-25.6 0-45.511111 8.533333-65.422223 19.911111C645.688889 224.711111 546.133333 142.222222 426.666667 142.222222c-142.222222 0-256 113.777778-256 256 0 11.377778 0 22.755556 2.844444 31.288889-11.377778-2.844444-19.911111-2.844444-31.288889-2.844444-79.644444 0-142.222222 62.577778-142.222222 142.222222s62.577778 142.222222 142.222222 142.222222h753.777778c71.111111 0 128-56.888889 128-128S967.111111 455.111111 896 455.111111z" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512" xml:space="preserve">
+                            <path d="M441.953,142.352c-4.447-68.872-61.709-123.36-131.705-123.36c-59.481,0-109.766,39.346-126.264,93.429  c-9.244-3.5-19.259-5.431-29.729-5.431c-42.84,0-78.164,32.08-83.322,73.523c-0.309-0.004-0.614-0.023-0.924-0.023  c-36.863,0-66.747,29.883-66.747,66.747s29.883,66.746,66.747,66.746c4.386,0,8.669-0.436,12.819-1.243  c20.151,27.069,52.394,44.604,88.734,44.604c31.229,0,59.429-12.952,79.533-33.772c15.071,15.091,35.901,24.428,58.913,24.428  c31.43,0,58.783-17.42,72.955-43.127c11.676,5.824,24.844,9.106,38.777,9.106c48.047,0,86.998-38.949,86.998-86.996  C508.738,185.895,480.252,151.465,441.953,142.352z"/>
+                        </svg>
+                        <svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 71.964 71.964" xml:space="preserve">
+                            <g>
+                                <path d="M71.964,32.82c0,11.158-9.079,20.236-20.239,20.236c-1.49,0-2.996-0.174-4.494-0.519c-2.68,4.248-7.35,6.849-12.416,6.849
+                                    c-6.163,0-11.591-3.83-13.72-9.498c-1.999,0.979-4.188,1.488-6.419,1.488C6.584,51.376,0,44.794,0,36.701
+                                    c0-8.093,6.584-14.676,14.676-14.676c1.418,0,2.815,0.205,4.167,0.608c1.966-5.986,7.503-10.055,13.924-10.055
+                                    c3.115,0,6.152,0.998,8.657,2.828c3.12-1.852,6.661-2.828,10.301-2.828C62.885,12.578,71.964,21.658,71.964,32.82z"/>
+                            </g>
+                            </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M792.323988 463.708134c0-2.369977 0.38988-4.739954 0.38988-7.105838 0-128.253012-102.205776-232.03775-228.28631-232.03775-90.970898 0-169.105443 54.063313-205.808366 132.197858-15.978926-8.087189-33.935903-12.82305-52.878324-12.82305-58.205657 0-106.743116 43.210128-116.01734 99.643418-69.850881 24.071232-119.769804 90.959641-119.769804 169.709193 0 99.053993 79.122035 179.361017 176.592974 179.558515l545.972742 0 0 0c89.180112-0.397043 161.202449-73.992201 161.202449-164.561963C953.921433 537.50693 881.505124 463.900515 792.323988 463.708134L792.323988 463.708134zM792.323988 463.708134"  /></svg>
+                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 67.624 67.625" xml:space="preserve">
+                        <g>
+                            <path d="M67.624,17.664c0-7.136-5.805-12.94-12.938-12.94c-2.172,0-4.312,0.549-6.213,1.593c-1.56-1.031-3.418-1.593-5.283-1.593
+                                c-3.93,0-7.418,2.372-8.861,5.965c-0.691-0.157-1.398-0.236-2.11-0.236c-5.275,0-9.566,4.292-9.566,9.566
+                                c0,0.695,0.079,1.371,0.22,2.025c-2.592,1.624-4.601,4.123-5.6,7.165c-1.24-0.369-2.52-0.555-3.82-0.555
+                                C6.035,28.654,0,34.688,0,42.106s6.035,13.452,13.452,13.452c2.045,0,4.053-0.469,5.884-1.365
+                                c1.951,5.193,6.926,8.707,12.576,8.707c4.645,0,8.923-2.384,11.38-6.28c1.373,0.317,2.753,0.478,4.119,0.478
+                                c10.229,0,18.552-8.322,18.552-18.551c0-3.963-1.26-7.632-3.386-10.65C65.639,25.526,67.624,21.826,67.624,17.664z"/>
+                        </g>
+                        </svg>
                     </div>
                 </div>
             </div>
@@ -68,22 +110,6 @@
                 <div class="date">
                     <div class="day"></div>
                     <div class="month"></div>
-                </div>
-                <div class="sun-moon-info">
-                    <div class="sunrise-sunset">
-                        <div class="sunrise">
-                            <img src="" alt="">
-                            <p></p>
-                        </div>
-                        <div class="sunset">
-                            <img src="" alt="">
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="moon-phase">
-                        <img class="moon-phase" />
-                        <p></p>
-                    </div>
                 </div>
                 <div class="hour">
                     <div class="weather-condition">
@@ -123,22 +149,6 @@
                     <div class="day"></div>
                     <div class="month"></div>
                 </div>
-                <div class="sun-moon-info">
-                    <div class="sunrise-sunset">
-                        <div class="sunrise">
-                            <img src="" alt="">
-                            <p></p>
-                        </div>
-                        <div class="sunset">
-                            <img src="" alt="">
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="moon-phase">
-                        <img class="moon-phase" />
-                        <p></p>
-                    </div>
-                </div>
                 <div class="hour">
                     <div class="weather-condition">
                         <img class="icon" />
@@ -176,22 +186,6 @@
                 <div class="date">
                     <div class="day"></div>
                     <div class="month"></div>
-                </div>
-                <div class="sun-moon-info">
-                    <div class="sunrise-sunset">
-                        <div class="sunrise">
-                            <img src="" alt="">
-                            <p></p>
-                        </div>
-                        <div class="sunset">
-                            <img src="" alt="">
-                            <p></p>
-                        </div>
-                    </div>
-                    <div class="moon-phase">
-                        <img class="moon-phase" />
-                        <p></p>
-                    </div>
                 </div>
                 <div class="hour">
                     <div class="weather-condition">

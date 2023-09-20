@@ -1,7 +1,7 @@
 import { format } from "date-fns";
 
 import Sunny from "./icons/sun.png";
-import Clear from "./icons/full-moon.png";
+import Clear from "./icons/night.png";
 import CloudyDay from "./icons/cloudy-day.png";
 import CloudyNight from "./icons/cloudy-night.png";
 import Overcast from "./icons/cloud.png";
@@ -16,18 +16,6 @@ import Rain from "./icons/rain.png";
 import Storm from "./icons/storm.png";
 import Blizzard from "./icons/blizzard.png";
 import Hailstone from "./icons/hailstone.png";
-
-import FirstQuarter from "./icons/moon phases /first-quarter.png";
-import FullMoon from "./icons/moon phases /full-moon.png";
-import LastQuarter from "./icons/moon phases /last-quarter.png";
-import NewMoon from "./icons/moon phases /new-moon.png";
-import WaningCrescent from "./icons/moon phases /waning-crescent.png";
-import WaningGibbous from "./icons/moon phases /waning-gibbous.png";
-import WaxingGibbous from "./icons/moon phases /waxing-gibbous.png";
-import WaxingCrescent from "./icons/moon phases /waxing-crescent.png";
-
-import Sunrise from "./icons/sunrise.png";
-import Sunset from "./icons/sunset.png";
 
 import "./style.css";
 
@@ -112,41 +100,6 @@ function getIcon(code, isDay) {
   }
   return src;
 }
-
-function getMoonPhase(phase) {
-  let src;
-  switch (phase) {
-    case "First Quarter":
-      src = FirstQuarter;
-      break;
-    case "Full Moon":
-      src = FullMoon;
-      break;
-    case "Last Quarter":
-      src = LastQuarter;
-      break;
-    case "New Moon":
-      src = NewMoon;
-      break;
-    case "Waning Crescent":
-      src = WaningCrescent;
-      break;
-    case "Waxing Crescent":
-      src = WaxingCrescent;
-      break;
-    case "Waning Gibbous":
-      src = WaningGibbous;
-      break;
-    case "Waxing Gibbous":
-      src = WaxingGibbous;
-      break;
-    default:
-      src = "nope! not here";
-      break;
-  }
-  return src;
-}
-
 function startLoad() {
   console.log("loading...");
 }
@@ -157,18 +110,18 @@ function stopLoad() {
 
 function getUVDescriptor(uv) {
   if (uv <= 2) {
-    return "green";
+    return "rgb(63, 192, 37)";
   }
   if (uv <= 5) {
-    return "yellow";
+    return "rgb(255, 255, 121)";
   }
   if (uv <= 7) {
     return "orange";
   }
   if (uv <= 10) {
-    return "red";
+    return "rgb(255, 75, 75)";
   }
-  return "violet";
+  return "rgb(191, 110, 191)";
 }
 
 let slideIndex = 0;
@@ -207,7 +160,8 @@ nextBtn.addEventListener("click", plusSlides);
 
 function extractData(forecast) {
   return {
-    location: `${forecast.location.name}, ${forecast.location.country}`,
+    name: forecast.location.name,
+    country: forecast.location.country,
     time: new Date(
       Number(forecast.current.last_updated.slice(0, 4)),
       Number(forecast.current.last_updated.slice(5, 7)) - 1,
@@ -274,7 +228,7 @@ function populatePage(promise) {
   promise.then((data) => {
     const current = document.querySelector(".current");
     const city = current.querySelector(".city");
-    city.textContent = data.location.toLowerCase();
+    city.innerHTML = `${data.name.toLowerCase()},</br>${data.country.toLowerCase()}`;
     const time = current.querySelector(".current-time");
     time.textContent = format(data.time, "EEE dd MMM yyyy HH:mm");
     const weatherIcon = current.querySelector(".current-weather > .icon");
@@ -288,21 +242,36 @@ function populatePage(promise) {
 
     const feelsLike = document.querySelector(".feels-like");
     feelsLike.textContent = `${data.feels_like}ºC`;
+    // eslint-disable-next-line no-nested-ternary
+    feelsLike.parentElement.style.setProperty('--width', `${data.feels_like + 5 > 100 ? 100 : data.feels_like + 5 < 0 ? 0 : data.feels_like + 5}%`);
+    feelsLike.parentElement.querySelector('progress').setAttribute('value', data.feels_like);
     const humidity = document.querySelector(".humidity");
     humidity.textContent = `${data.humidity}%`;
+    humidity.parentElement.querySelector('.mask').style.backgroundColor = `rgba(0, 0, 255, ${data.humidity / 100})`;
     const uvIndex = document.querySelector(".uv-index");
     uvIndex.textContent = data.uv_index;
-    uvIndex.parentElement.style.outline = `${getUVDescriptor(
-      data.uv_index,
-    )} solid 1px`;
+    uvIndex.style.backgroundColor = getUVDescriptor(
+      data.uv_index);
+    uvIndex.parentElement.style.background = `repeating-conic-gradient(
+      from 0deg,
+      ${getUVDescriptor(data.uv_index)} 0deg 4deg,
+      black 4deg 5deg,
+      white 5deg 8deg,
+      black 8deg 9deg
+    )`
     const wind = document.querySelector(".wind");
-    const windDeg = document.querySelector("#wind > .arrow");
+    const windDeg = document.querySelector("#wind .arrow");
     windDeg.style.transform = `rotate(${data.wind_deg - 90}deg)`;
     wind.textContent = data.wind_kph;
     const precip = document.querySelector(".precip");
     precip.textContent = `${data.precip}mm`;
+    document.querySelector('#precip > .water').style.height = `${15 + data.precip * 10}px`
     const cloud = document.querySelector(".cloud");
     cloud.textContent = `${data.cloud}%`;
+    cloud.parentElement.style.setProperty('background-color', `rgba()`)
+    document.querySelectorAll('#cloud svg path').forEach((svg) => {
+      svg.style.setProperty('fill', `rgba(200, 200, 200, ${(data.cloud / 100) * 0.8})`);
+    })
 
     let i = 0;
     const slides = [...document.querySelectorAll(".slide")];
@@ -310,19 +279,7 @@ function populatePage(promise) {
       const day = slide.querySelector(".day");
       day.textContent = format(data.forecastday[i].date, "dd");
       const month = slide.querySelector(".month");
-      month.textContent = format(data.forecastday[i].date, "MMM");
-      const sunriseText = slide.querySelector(".sunrise > p");
-      sunriseText.textContent = data.forecastday[i].sunrise;
-      const sunriseIcon = slide.querySelector(".sunrise > img");
-      sunriseIcon.src = Sunrise;
-      const sunsetText = slide.querySelector(".sunset > p");
-      sunsetText.textContent = data.forecastday[i].sunset;
-      const sunsetIcon = slide.querySelector(".sunset > img");
-      sunsetIcon.src = Sunset;
-      const moonPhaseText = slide.querySelector(".moon-phase > p");
-      moonPhaseText.textContent = data.forecastday[i].moon_phase.toLowerCase();
-      const moonPhaseIcon = slide.querySelector(".moon-phase > img");
-      moonPhaseIcon.src = getMoonPhase(data.forecastday[i].moon_phase);
+      month.textContent = format(data.forecastday[i].date, "MMM").toLowerCase();
 
       let j = 0;
       [...slide.querySelectorAll(".hour")].forEach((hour) => {
@@ -359,7 +316,7 @@ async function getForecastData(location) {
   return data;
 }
 
-populatePage(getForecastData("Paris"));
+populatePage(getForecastData("etobicoke"));
 
 async function searchCities(str) {
   if (str.trim().length > 0) {
@@ -384,10 +341,6 @@ form.addEventListener("submit", (ev) => {
   ev.preventDefault();
 });
 
-search.addEventListener("search", (ev) => {
-  ev.preventDefault();
-});
-
 function searchStr(e) {
   const index = e.target.getAttribute("data-index");
   searchCities(search.value).then((cities) => {
@@ -397,6 +350,7 @@ function searchStr(e) {
 }
 
 searchBtn.addEventListener("click", () => {
+  document.querySelector('div.search-box').classList.add('empty');
   searchCities(search.value).then((cities) => {
     if (cities.length > 0) {
       const choice = cities[0];
@@ -410,33 +364,40 @@ searchBtn.addEventListener("click", () => {
 });
 
 search.addEventListener("input", () => {
-  const searchBox = document.querySelector("div.search-box");
-  searchBox.textContent = "";
+  const searchResults = document.querySelector("ul.search-results");
+  searchResults.textContent = "";
   searchCities(search.value).then((cities) => {
     let index = 0;
+    if (cities.length === 0) {
+      document.querySelector('div.search-box').classList.add('empty');
+    }
     cities.forEach((item) => {
-      const city = document.createElement("div");
+      const city = document.createElement("li");
       city.classList.add("city-option");
       city.setAttribute("data-index", index);
       city.addEventListener("click", searchStr);
       city.textContent = item.region
         ? `${item.name}, ${item.region}, ${item.country}`
         : `${item.name}, ${item.country}`;
-      searchBox.appendChild(city);
+      searchResults.appendChild(city);
+      document.querySelector('div.search-box').classList.remove('empty');
       index += 1;
     });
   });
 });
 
 search.addEventListener("focus", () => {
-  const searchBox = document.createElement("div");
-  searchBox.classList.add("search-box");
-  search.parentElement.appendChild(searchBox);
+  const searchResults = document.createElement("ul");
+  searchResults.classList.add("search-results");
+  document.querySelector('div.search-box').appendChild(searchResults);
 });
 
 search.addEventListener("focusout", () => {
-  const searchBox = document.querySelector("div.search-box");
+  const searchBoxes = document.querySelectorAll("ul.search-results");
   setTimeout(() => {
-    searchBox.remove();
+    searchBoxes.forEach((box) => {
+      box.remove();
+    })
+    document.querySelector('div.search-box').classList.add('empty');
   }, 300);
 });
